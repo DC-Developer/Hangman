@@ -2,6 +2,7 @@ var wds = ['PANDA', 'DONKEY', 'CRAZY', 'ENORMOUS', 'DINOSAUR', 'PYSCHOTHERAPY', 
 var guessTotal = 15;
 var guesses = [];
 var wordGuessed= ''; 
+var result = '';
 
 var ran = Math.floor(Math.random() * wds.length);
 
@@ -13,13 +14,25 @@ function wordBlanks(word){
     }
     return result;
 }
-function findIndex(word, letter){
+//find the index position of the guessed letter
+//need to pass in the word and the guessed letter + we will need to concatenate the guessed letters to the "_'s"
 
-    var index = word.indexOf(letter);
 
-    console.log('Index: ', index);
+function blanksToLetters(word, letter){
+    // var index = word.indexOf(letter);
+    
+    // console.log('Index: ', index);
+    // console.log(index);
+    for(var i=0; i<word.length; i++){
+        if(letter == word[i]){
+            result += letter;
+        }else{
+            result += '_';
+        }
+    }
+    console.log('result',result);
+
 }
-
 
 
 $(document).ready(function(){
@@ -27,7 +40,7 @@ $(document).ready(function(){
 
     console.log(wordBlanks(wds[ran]));
 
-    findIndex("hello", "h");
+    blanksToLetters("hello", "l");
     
 
 })
