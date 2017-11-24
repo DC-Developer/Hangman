@@ -5,6 +5,7 @@ var letterGuessed= '';
 var result = '';
 var gameStatus = false;
 var wins = 0;
+var losses = 0;
 
 var ran = Math.floor(Math.random() * wds.length);
 
@@ -14,7 +15,7 @@ function start(){
 
     $(".guessRem").append(guessTotal);
 
-    $(".lGuessed").append(letterGuessed);
+    $(".lGuessed").html(letterGuessed);
 }
 
 
@@ -50,7 +51,17 @@ function indexToChar(i) {
     return String.fromCharCode(i);
   }
 
+function end(){
+    guessTotal = 15;
+    var letterGuessed= '';
+    gameStatus = false; 
 
+    $(".word").empty();
+    
+    $(".guessRem").empty();
+    
+    $(".lGuessed").empty();
+}
 $(document).ready(function(){
     console.log(wds[ran]);
 
@@ -69,6 +80,15 @@ $(document).ready(function(){
         }else{
             console.log(e.which);
             console.log(indexToChar(e.which));
+            letterGuessed = indexToChar(e.which);
+            $(".lGuessed").html(letterGuessed);
+            console.log('letterguessed: ', letterGuessed);
+            guessTotal--;
+            console.log('guesstotal: ', guessTotal);
+            if(guessTotal == 0){
+                console.log('you ran out of guess. game over!');
+                end();
+            }
         }
        
     })
