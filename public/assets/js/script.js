@@ -1,18 +1,20 @@
 var wds = ['PANDA', 'DONKEY', 'CRAZY', 'ENORMOUS', 'DINOSAUR', 'PYSCHOTHERAPY', 'EXTRATERRESTRIAL', 'JUPITER', 'RELATIVITY'];
 var guessTotal = 15;
 var guesses = [];
-var wordGuessed= ''; 
+var letterGuessed= ''; 
 var result = '';
+var gameStatus = false;
+var wins = 0;
 
 var ran = Math.floor(Math.random() * wds.length);
 
 function start(){
 
-    $(".word").html(wordBlanks(wds[ran]));
+    $(".word").append(wordBlanks(wds[ran]));
 
-    
+    $(".guessRem").append(guessTotal);
 
-
+    $(".lGuessed").append(letterGuessed);
 }
 
 
@@ -53,11 +55,25 @@ $(document).ready(function(){
 
     blanksToLetters("hello", "l");
     
-    $(this).on("keypress", function(){
-        console.log('You started the game');
+    $(this).on("keypress", function(e){
         //start the game on keypress
-        start();
+        if(gameStatus == false){
+            console.log('You started the game');
+            start();
+            gameStatus = true;
+        }else if(e.which < 97 || e.which > 122){
+            return false;
+        }else{
+            console.log(e.which);
+        }
+       
     })
+
+    // $(this).keypress(function(e)
+    // {
+    //     if(e.which < 65 || e.which > 90) //65=a, 90=z
+    //         return false;
+    // });
 
 
 })
