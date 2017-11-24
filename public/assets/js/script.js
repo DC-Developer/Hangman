@@ -2,8 +2,9 @@ var wds = ['xxddxxddxx','PANDA', 'DONKEY', 'CRAZY', 'ENORMOUS', 'DINOSAUR', 'PYS
 var currentWord = '';
 var guessTotal = 22;
 var correctGuess = '';
-var letterGuessed = ''; 
+var letterGuessed = []; 
 var hidden = [];
+var repeat = false; 
 var gameStatus = false;
 var wins = 0;
 var losses = 0;
@@ -78,8 +79,19 @@ function checkLetter(letter, word){
             correctGuess = letter;
             console.log('correctguess: ', correctGuess);
             uncover(lCase, correctGuess);
-            //send the result to blanksToLetters function
-            // blanksToLetters(lCase, correctGuess);
+            
+        }
+    }
+    
+}
+function checkRep(keypress){
+    for(var i=0; i<letterGuessed.length; i++){
+        if(keypress == letterGuessed[i]){
+            // repeat = true;
+            // console.log('repeat: ', repeat);
+            return true;
+        }else{
+            return false;
         }
     }
     
@@ -111,19 +123,30 @@ $(document).ready(function(){
         }else{
             console.log(e.which);
             console.log(indexToChar(e.which));
-            letterGuessed = indexToChar(e.which);
-            $(".lGuessed").html(letterGuessed);
-            console.log('letterguessed: ', letterGuessed);
-            //check and see if the guessed letter is right
-            checkLetter(letterGuessed, currentWord);
-
-            guessTotal--;
-            console.log('guesstotal: ', guessTotal);
-            if(guessTotal == 0){
-                losses++;
-                console.log('you ran out of guess. game over!');
-                end();
+            
+            // checkRep(indexToChar(e.which));
+            
+            if(checkRep(indexToChar(e.which)) === false ){
+                letterGuessed += indexToChar(e.which);
+                $(".lGuessed").html(letterGuessed);
+                console.log('letterguessed: ', letterGuessed);
+                //check and see if the guessed letter is right
+                checkLetter(letterGuessed, currentWord);
+    
+                guessTotal--;
+                console.log('guesstotal: ', guessTotal);
+                if(guessTotal == 0){
+                    losses++;
+                    console.log('you ran out of guesses. game over!');
+                    end();
+                }
+            }else{
+                alert('Enter a new letter!');
             }
+               
+            
+
+       
         }
        
     })
