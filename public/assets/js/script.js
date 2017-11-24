@@ -1,9 +1,9 @@
-var wds = ['PANDA', 'DONKEY', 'CRAZY', 'ENORMOUS', 'DINOSAUR', 'PYSCHOTHERAPY', 'EXTRATERRESTRIAL', 'JUPITER', 'RELATIVITY'];
+var wds = ['xxddxxddxx','PANDA', 'DONKEY', 'CRAZY', 'ENORMOUS', 'DINOSAUR', 'PYSCHOTHERAPY', 'EXTRATERRESTRIAL', 'JUPITER', 'RELATIVITY'];
 var currentWord = '';
-var guessTotal = 15;
-var guesses = [];
-var letterGuessed= ''; 
-var result = '';
+var guessTotal = 22;
+var correctGuess = '';
+var letterGuessed = ''; 
+var hidden = [];
 var gameStatus = false;
 var wins = 0;
 var losses = 0;
@@ -11,10 +11,15 @@ var losses = 0;
 var ran = Math.floor(Math.random() * wds.length);
 
 function start(){
-
+    console.log("start function");
     currentWord = wds[ran];
+    makeBlanks(currentWord);
 
-    $(".word").append(wordBlanks(currentWord));
+    for(var i =0; i<currentWord.length; i++ ){
+        $(".word").append(hidden[i]);
+    }
+    // $(".word").append(wordBlanks(currentWord));
+    // $(".word").append(blanksToLetters(currentWord));
 
     $(".guessRem").append(guessTotal);
 
@@ -25,38 +30,40 @@ function start(){
     $(".losses").html(losses);
 }
 
-
-
-
-function wordBlanks(word){
-    var result = '';
-
-    for(var i=0; i<word.length; i++){
-        result += '_';
-    }
-    return result;
-}
 //need to pass in the word and the guessed letter + we will need to concatenate the guessed letters to the "_'s"
 
 
-function blanksToLetters(word, letter){
+function makeBlanks(word){
     // var index = word.indexOf(letter);
     
     // console.log('Index: ', index);
     // console.log(index);
+
     for(var i=0; i<word.length; i++){
-        if(letter == word[i]){
-            result += letter;
-        }else{
-            result += '_';
+        hidden[i] = '_';
+    }
+
+    console.log('hidden: ',hidden);
+    
+}
+function uncover(word, letter){
+
+    for(var i=0; i<word.length; i++){
+        console.log('i am starting');
+        
+        if(letter === word[i]){
+            console.log("changing");
+            hidden[i] = letter;
         }
     }
-    console.log('result',result);
-
-
-    //need to create an array that stores all the correctly guessed leters
-    //and loop through them and see if they match any letters in the word
-    //going to need to use a nested loop
+    console.log('revealed: ', hidden);
+    
+     $(".word").empty();
+     $(".word").html(hidden);
+    
+    // for(var i=0; i<word.length; i++){
+    //     $(".show").html(word[i]);
+    // }
 }
 function indexToChar(i) {
     return String.fromCharCode(i);
@@ -68,15 +75,20 @@ function checkLetter(letter, word){
     for(var i=0; i<lCase.length; i++){
         if(letter == lCase[i]){
             console.log('You guessed the correct letter');
-
+            correctGuess = letter;
+            console.log('correctguess: ', correctGuess);
+            uncover(lCase, correctGuess);
+            //send the result to blanksToLetters function
+            // blanksToLetters(lCase, correctGuess);
         }
     }
     
 }
 function end(){
     guessTotal = 15;
-    var letterGuessed= '';
+    letterGuessed= '';
     gameStatus = false; 
+    correctGuesses = [];
 
     $(".word").empty();
     
@@ -87,8 +99,6 @@ function end(){
 
 $(document).ready(function(){
     console.log(wds[ran]);
-
-    console.log(wordBlanks(wds[ran]));
 
     $(this).on("keypress", function(e){
         //start the game on keypress
