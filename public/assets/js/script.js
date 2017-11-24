@@ -46,6 +46,9 @@ function blanksToLetters(word, letter){
     console.log('result',result);
 
 }
+function indexToChar(i) {
+    return String.fromCharCode(i);
+  }
 
 
 $(document).ready(function(){
@@ -65,15 +68,9 @@ $(document).ready(function(){
             return false;
         }else{
             console.log(e.which);
+            console.log(indexToChar(e.which));
         }
        
     })
-
-    // $(this).keypress(function(e)
-    // {
-    //     if(e.which < 65 || e.which > 90) //65=a, 90=z
-    //         return false;
-    // });
-
 
 })
