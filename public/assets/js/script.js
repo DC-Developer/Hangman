@@ -6,6 +6,18 @@ var result = '';
 
 var ran = Math.floor(Math.random() * wds.length);
 
+function start(){
+
+    $(".word").html(wordBlanks(wds[ran]));
+
+    
+
+
+}
+
+
+
+
 function wordBlanks(word){
     var result = '';
 
@@ -14,7 +26,6 @@ function wordBlanks(word){
     }
     return result;
 }
-//find the index position of the guessed letter
 //need to pass in the word and the guessed letter + we will need to concatenate the guessed letters to the "_'s"
 
 
@@ -42,5 +53,11 @@ $(document).ready(function(){
 
     blanksToLetters("hello", "l");
     
+    $(this).on("keypress", function(){
+        console.log('You started the game');
+        //start the game on keypress
+        start();
+    })
+
 
 })
