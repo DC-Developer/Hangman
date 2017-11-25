@@ -13,34 +13,28 @@ var losses = 0;
 var ran ;
 
 function start(){
-    console.log(wins);
-    console.log("start function");
+    //generate the random word and send that word to the makeBlanks to make the palletes 
     ran = Math.floor(Math.random() * wds.length);
     currentWord = wds[ran];
-    console.log("currentword: ", currentWord);
     makeBlanks(currentWord);
-
+    //loops through the hidden array and appends the "_" in each index
     for(var i =0; i<currentWord.length; i++ ){
         $(".word").append(hidden[i]);
     }
-
     $(".guessRem").append(guessTotal);
-
     $(".lGuessed").html(letterGuessed);
-
     $(".wins").html(wins);
-
     $(".losses").html(losses);
 }
 function makeBlanks(word){
-
+//replaces "_" for the letters of the chosen word in hidden array
     for(var i=0; i<word.length; i++){
         hidden[i] = '_';
     }
-    console.log('hidden: ',hidden);   
+ 
 }
 function uncover(word, letter){
-    
+   //loops through word and if the letter matches with word index, then it replaces the "_" with letter 
     for(var i=0; i<word.length; i++){
         console.log('i am starting');
         
@@ -49,7 +43,6 @@ function uncover(word, letter){
             hidden[i] = letter;
         }
     }
-    console.log('revealed: ', hidden);  
      $(".word").empty();
      $(".word").html(hidden);
     //check and see if all the letters have been correctly guessed, and if it has, end the game
@@ -61,22 +54,14 @@ function uncover(word, letter){
         end();
     }
 }
-function indexToChar(i) {
-    return String.fromCharCode(i);
-}
 function checkLetter(letter, word){
     var lCase = word.toLowerCase();
-    console.log("lowercased: ",lCase);
-
+  //checks to see if the letter was correctly guessed
     for(var i=0; i<lCase.length; i++){
         if(letter == lCase[i]){
-            console.log('You guessed the correct letter');
             correctGuess = letter;
-            console.log('correctguess: ', correctGuess);
             correctGuesses.push(correctGuess);
-            console.log('correctguesses array: ', correctGuesses);
             uncover(lCase, correctGuess);
-            
         }
     } 
 }
@@ -89,11 +74,8 @@ function end(){
     hidden = [];
 
     $(".word").empty();
-    
     $(".guessRem").empty();
-    
     $(".lGuessed").empty();
-
     alert("Press any key to start another game!");
 }
 
@@ -102,24 +84,19 @@ $(document).ready(function(){
     $(this).on("keypress", function(e){
         //start the game on keypress
         if(gameStatus == false){
-            console.log('You started the game');
             gameStatus = true;
             start();
         }else if(e.which < 97 || e.which > 122){
             return false;
         }else{
-            console.log(e.which);
-            console.log(indexToChar(e.which));
             letterGuessed = indexToChar(e.which);
             $(".lGuessed").html(letterGuessed);
-            console.log('letterguessed: ', letterGuessed);
             //check and see if the guessed letter is right
             checkLetter(letterGuessed, currentWord);
             guessTotal--;
-            console.log('guesstotal: ', guessTotal);
             if(guessTotal == 0){
                 losses++;
-                console.log('you ran out of guesses. game over!');
+                alert('You lost!');
                  end();
             }  
         }//end of else-statement
