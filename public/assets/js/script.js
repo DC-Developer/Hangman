@@ -2,7 +2,8 @@ var wds = ['xxddxxddxx','PANDA', 'DONKEY', 'CRAZY', 'ENORMOUS', 'DINOSAUR', 'PYS
 var currentWord = '';
 var guessTotal = 22;
 var correctGuess = '';
-var letterGuessed = []; 
+var correctGuesses = [];
+var letterGuessed = ''; 
 var pressedkey ;
 var hidden = [];
 var gameStatus = false;
@@ -19,8 +20,6 @@ function start(){
     for(var i =0; i<currentWord.length; i++ ){
         $(".word").append(hidden[i]);
     }
-    // $(".word").append(wordBlanks(currentWord));
-    // $(".word").append(blanksToLetters(currentWord));
 
     $(".guessRem").append(guessTotal);
 
@@ -30,25 +29,15 @@ function start(){
 
     $(".losses").html(losses);
 }
-
-//need to pass in the word and the guessed letter + we will need to concatenate the guessed letters to the "_'s"
-
-
 function makeBlanks(word){
-    // var index = word.indexOf(letter);
-    
-    // console.log('Index: ', index);
-    // console.log(index);
 
     for(var i=0; i<word.length; i++){
         hidden[i] = '_';
     }
-
-    console.log('hidden: ',hidden);
-    
+    console.log('hidden: ',hidden);   
 }
 function uncover(word, letter){
-
+    
     for(var i=0; i<word.length; i++){
         console.log('i am starting');
         
@@ -57,14 +46,17 @@ function uncover(word, letter){
             hidden[i] = letter;
         }
     }
-    console.log('revealed: ', hidden);
-    
+    console.log('revealed: ', hidden);  
      $(".word").empty();
      $(".word").html(hidden);
-    
-    // for(var i=0; i<word.length; i++){
-    //     $(".show").html(word[i]);
-    // }
+    //check and see if all the letters have been correctly guessed, and if it has, end the game
+    if(hidden.indexOf('_') != -1){
+        console.log('index of _ : ',hidden.indexOf('_'));
+    }else{
+        alert('You won!');
+        wins++;
+        end();
+    }
 }
 function indexToChar(i) {
     return String.fromCharCode(i);
@@ -78,13 +70,13 @@ function checkLetter(letter, word){
             console.log('You guessed the correct letter');
             correctGuess = letter;
             console.log('correctguess: ', correctGuess);
+            correctGuesses.push(correctGuess);
+            console.log('correctguesses array: ', correctGuesses);
             uncover(lCase, correctGuess);
             
         }
-    }
-    
+    } 
 }
-
 function end(){
     guessTotal = 15;
     letterGuessed= '';
@@ -100,6 +92,7 @@ function end(){
 
 $(document).ready(function(){
     console.log(wds[ran]);
+    
 
     $(this).on("keypress", function(e){
         //start the game on keypress
@@ -112,30 +105,18 @@ $(document).ready(function(){
         }else{
             console.log(e.which);
             console.log(indexToChar(e.which));
-            
-            
-               
-            
-                letterGuessed += indexToChar(e.which);
-
-                $(".lGuessed").html(letterGuessed);
-                console.log('letterguessed: ', letterGuessed);
-                //check and see if the guessed letter is right
-                checkLetter(letterGuessed, currentWord);
-    
-                guessTotal--;
-                console.log('guesstotal: ', guessTotal);
-                if(guessTotal == 0){
-                    losses++;
-                    console.log('you ran out of guesses. game over!');
-                    end();
-                }
-            
-               
-            
-
-        }
-       
-    })
-
+            letterGuessed = indexToChar(e.which);
+            $(".lGuessed").html(letterGuessed);
+            console.log('letterguessed: ', letterGuessed);
+            //check and see if the guessed letter is right
+            checkLetter(letterGuessed, currentWord);
+            guessTotal--;
+            console.log('guesstotal: ', guessTotal);
+            if(guessTotal == 0){
+                losses++;
+                console.log('you ran out of guesses. game over!');
+                 end();
+            }  
+        }//end of else-statement
+    })//end of keypress
 })
