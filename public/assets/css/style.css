@@ -1,0 +1,14 @@
+*{
+    margin: 0 auto;
+}
+.jumbotron-fluid{
+    background-image: url('https://raw.githubusercontent.com/DC-Developer/Hangman/master/public/assets/imgs/hangman.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 120rem;
+    height: 50rem;
+    
+}
+#two{
+    font-size: 1.3rem;
+}
