@@ -10,11 +10,14 @@ var gameStatus = false;
 var wins = 0;
 var losses = 0;
 
-var ran = Math.floor(Math.random() * wds.length);
+var ran ;
 
 function start(){
+    console.log(wins);
     console.log("start function");
+    ran = Math.floor(Math.random() * wds.length);
     currentWord = wds[ran];
+    console.log("currentword: ", currentWord);
     makeBlanks(currentWord);
 
     for(var i =0; i<currentWord.length; i++ ){
@@ -78,28 +81,30 @@ function checkLetter(letter, word){
     } 
 }
 function end(){
+    gameStatus = false;
     guessTotal = 15;
     letterGuessed= '';
     gameStatus = false; 
     correctGuesses = [];
+    hidden = [];
 
     $(".word").empty();
     
     $(".guessRem").empty();
     
     $(".lGuessed").empty();
+
+    alert("Press any key to start another game!");
 }
 
-$(document).ready(function(){
-    console.log(wds[ran]);
-    
-
+$(document).ready(function(){    
+    alert('Press any key to begin the game!');
     $(this).on("keypress", function(e){
         //start the game on keypress
         if(gameStatus == false){
             console.log('You started the game');
-            start();
             gameStatus = true;
+            start();
         }else if(e.which < 97 || e.which > 122){
             return false;
         }else{
