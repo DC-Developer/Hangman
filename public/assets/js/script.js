@@ -3,8 +3,8 @@ var currentWord = '';
 var guessTotal = 22;
 var correctGuess = '';
 var letterGuessed = []; 
+var pressedkey ;
 var hidden = [];
-var repeat = false; 
 var gameStatus = false;
 var wins = 0;
 var losses = 0;
@@ -84,18 +84,7 @@ function checkLetter(letter, word){
     }
     
 }
-function checkRep(keypress){
-    for(var i=0; i<letterGuessed.length; i++){
-        if(keypress == letterGuessed[i]){
-            // repeat = true;
-            // console.log('repeat: ', repeat);
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
-}
+
 function end(){
     guessTotal = 15;
     letterGuessed= '';
@@ -124,10 +113,11 @@ $(document).ready(function(){
             console.log(e.which);
             console.log(indexToChar(e.which));
             
-            // checkRep(indexToChar(e.which));
             
-            if(checkRep(indexToChar(e.which)) === false ){
+               
+            
                 letterGuessed += indexToChar(e.which);
+
                 $(".lGuessed").html(letterGuessed);
                 console.log('letterguessed: ', letterGuessed);
                 //check and see if the guessed letter is right
@@ -140,13 +130,10 @@ $(document).ready(function(){
                     console.log('you ran out of guesses. game over!');
                     end();
                 }
-            }else{
-                alert('Enter a new letter!');
-            }
+            
                
             
 
-       
         }
        
     })
