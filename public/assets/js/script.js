@@ -21,7 +21,7 @@ function start(){
     for(var i =0; i<currentWord.length; i++ ){
         $(".word").append(hidden[i]);
     }
-    $(".guessRem").append(guessTotal);
+    $(".guessRem").html(guessTotal);
     $(".lGuessed").html(letterGuessed);
     $(".wins").html(wins);
     $(".losses").html(losses);
@@ -65,9 +65,12 @@ function checkLetter(letter, word){
         }
     } 
 }
+function indexToChar(i) {
+    return String.fromCharCode(i);
+}
 function end(){
     gameStatus = false;
-    guessTotal = 15;
+    guessTotal = 22;
     letterGuessed= '';
     gameStatus = false; 
     correctGuesses = [];
@@ -94,6 +97,7 @@ $(document).ready(function(){
             //check and see if the guessed letter is right
             checkLetter(letterGuessed, currentWord);
             guessTotal--;
+            $(".guessRem").html(guessTotal);
             if(guessTotal == 0){
                 losses++;
                 alert('You lost!');
